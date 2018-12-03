@@ -1,11 +1,16 @@
 package com.gallery;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.gallery.base.BaseActivity;
 import com.gallery.bean.FileCountBean;
@@ -25,16 +30,35 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (!applypermission()) {
-            finish();
-            return;
+        if (applypermission()) {
+            getFileList();
         }
         mRecyclerView = (RecyclerView) findViewById(R.id.file_list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         mAdapter = new FileListAdapter(this, mData);
         mRecyclerView.setAdapter(mAdapter);
-        getFileList();
+    }
+
+    @Override
+    protected void permissionsResult(boolean result) {
+        if (result) {
+            getFileList();
+        } else {
+            showDialog();
+        }
+    }
+
+    protected void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("没有读取sd卡的权限，可以到设置中打开");
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.show();
     }
 
     private List<FileCountBean> getFileList() {

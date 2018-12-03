@@ -54,7 +54,7 @@ public class ThreadShowActivity extends BaseActivity {
 
             @Override
             public void onPosition(int position) {
-                gallery_count.setText(position + "");
+                gallery_count.setText(position + mData.get(position).getPath());
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -95,7 +95,6 @@ public class ThreadShowActivity extends BaseActivity {
         BitmapFactory.decodeFile(path, options);
         int h = options.outHeight;
         int w = options.outWidth;
-//        return h == 1440 && w == 720;
         return true;
     }
 

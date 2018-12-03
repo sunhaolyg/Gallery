@@ -11,13 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ThreadShowAdapter extends RecyclerView.Adapter<ThreadShowAdapter.ViewHolder> {
-    private static final String TAG = "GuestResumeSessionReceiver";
     private final int mScreenWidth;
     private final ExecutorService mExecutorService;
     private Thread mWorkThread;
@@ -60,6 +60,7 @@ public class ThreadShowAdapter extends RecyclerView.Adapter<ThreadShowAdapter.Vi
         }
         PicBean bean = mData.get(position);
         getBitmap(holder.iv, bean.getPath());
+        holder.position.setText(position + "");
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,12 +120,12 @@ public class ThreadShowAdapter extends RecyclerView.Adapter<ThreadShowAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder {
 
         HeightImageView iv;
-        ImageView check;
+        TextView position;
 
         public ViewHolder(View itemView) {
             super(itemView);
             iv = itemView.findViewById(R.id.gallery_item_iv);
-            check = itemView.findViewById(R.id.gallery_item_check);
+            position = itemView.findViewById(R.id.gallery_item_position);
         }
 
     }

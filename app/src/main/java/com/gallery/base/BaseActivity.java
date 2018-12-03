@@ -1,14 +1,15 @@
 package com.gallery.base;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,19 +18,23 @@ import java.util.List;
 public class BaseActivity extends AppCompatActivity {
 
     protected static final String TAG = "MainActivityTAG";
+    protected Context mContext;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = this;
+    }
 
     protected boolean applypermission() {
-        if (Build.VERSION.SDK_INT >= 23) {
-            //检查是否已经给了权限
-            int checkpermission = ContextCompat.checkSelfPermission(getApplicationContext(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (checkpermission != PackageManager.PERMISSION_GRANTED) {//没有给权限
-                Toast.makeText(this, "拒绝访问sd卡", Toast.LENGTH_SHORT).show();
-                //参数分别是当前活动，权限字符串数组，requestcode
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            } else {
-                return true;
-            }
+        //检查是否已经给了权限
+        int checkpermission = ContextCompat.checkSelfPermission(getApplicationContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (checkpermission != PackageManager.PERMISSION_GRANTED) {//没有给权限
+            //参数分别是当前活动，权限字符串数组，requestcode
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+        } else {
+            return true;
         }
         return false;
     }
@@ -39,10 +44,13 @@ public class BaseActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //grantResults数组与权限字符串数组对应，里面存放权限申请结果
         if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "已授权", Toast.LENGTH_SHORT).show();
+            permissionsResult(true);
         } else {
-            Toast.makeText(this, "拒绝访问sd卡", Toast.LENGTH_SHORT).show();
+            permissionsResult(false);
         }
+    }
+
+    protected void permissionsResult(boolean result) {
     }
 
     protected List<String> getGallery(File fileAll) {

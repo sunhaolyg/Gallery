@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.gallery.bean.FileCountBean;
 
-import java.io.File;
 import java.util.List;
 
 public class FileListAdapter extends RecyclerView.Adapter<FileListAdapter.ViewHolder> {
