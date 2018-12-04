@@ -1,4 +1,4 @@
-package com.gallery;
+package com.gallery.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,37 +6,37 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.gallery.R;
+import com.gallery.activity.GalleryDetailsActivity;
+import com.gallery.activity.ThreadShowActivity;
+import com.gallery.bean.PicBean;
+import com.gallery.cache.ImageCache;
+import com.gallery.widget.HeightImageView;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class ThreadShowAdapter extends RecyclerView.Adapter<ThreadShowAdapter.ViewHolder> {
+
+    private static final String TAG = "MainActivityTAG";
     private final int mScreenWidth;
     private final ExecutorService mExecutorService;
     private Thread mWorkThread;
     private Context mContext;
     private List<PicBean> mData;
-    private int mLastPosition;
-    private LruCache<String, Bitmap> mMemoryCache;
+    private ImageCache mMemoryCache;
 
     public ThreadShowAdapter(Context context, List<PicBean> data, OnPositionCallback callback) {
         mOnPositionCallback = callback;
         mContext = context;
         mData = data;
-        long maxMemory = Runtime.getRuntime().maxMemory();
-        mMemoryCache = new LruCache<String, Bitmap>((int) maxMemory) {
-            @Override
-            protected int sizeOf(String key, Bitmap value) {
-                return value.getByteCount();
-            }
-        };
+        mMemoryCache = new ImageCache();
         DisplayMetrics dm2 = context.getResources().getDisplayMetrics();
         mScreenWidth = dm2.widthPixels;
         mExecutorService = Executors.newFixedThreadPool(5);
@@ -77,7 +77,7 @@ public class ThreadShowAdapter extends RecyclerView.Adapter<ThreadShowAdapter.Vi
     }
 
     private void getBitmap(final HeightImageView iv, final String path) {
-        Bitmap b = mMemoryCache.get(path);
+        Bitmap b = mMemoryCache.getBitmap(path);
         if (b != null) {
             iv.setBitmap(b);
             return;
@@ -137,4 +137,8 @@ public class ThreadShowAdapter extends RecyclerView.Adapter<ThreadShowAdapter.Vi
     }
 
     private OnPositionCallback mOnPositionCallback;
+
+    public void onDestroy() {
+        mExecutorService.shutdown();
+    }
 }

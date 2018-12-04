@@ -1,4 +1,4 @@
-package com.gallery;
+package com.gallery.activity;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -9,12 +9,14 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.gallery.R;
 
 public class GalleryDetailsActivity extends Activity {
 
-    public static final int GALLERY_COLUM = 2;
-    private MyZoomImageView gallery_details;
+    private ImageView gallery_details;
     private TextView details_info;
 
     @Override

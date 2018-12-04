@@ -1,4 +1,4 @@
-package com.gallery;
+package com.gallery.widget;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

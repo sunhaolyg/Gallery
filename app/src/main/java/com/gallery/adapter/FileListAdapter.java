@@ -1,4 +1,4 @@
-package com.gallery;
+package com.gallery.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.gallery.R;
+import com.gallery.activity.ThreadShowActivity;
 import com.gallery.bean.FileCountBean;
 
 import java.util.List;

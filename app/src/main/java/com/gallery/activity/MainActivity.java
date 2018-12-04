@@ -1,17 +1,15 @@
-package com.gallery;
+package com.gallery.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.gallery.adapter.FileListAdapter;
+import com.gallery.R;
 import com.gallery.base.BaseActivity;
 import com.gallery.bean.FileCountBean;
 

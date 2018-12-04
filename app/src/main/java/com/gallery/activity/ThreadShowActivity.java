@@ -1,4 +1,4 @@
-package com.gallery;
+package com.gallery.activity;
 
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -11,7 +11,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.gallery.R;
+import com.gallery.adapter.ThreadShowAdapter;
 import com.gallery.base.BaseActivity;
+import com.gallery.bean.PicBean;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -98,4 +101,9 @@ public class ThreadShowActivity extends BaseActivity {
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAdapter.onDestroy();
+    }
 }

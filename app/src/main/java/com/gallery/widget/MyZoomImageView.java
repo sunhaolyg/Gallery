@@ -1,4 +1,4 @@
-package com.gallery;
+package com.gallery.widget;
 
 import android.content.Context;
 import android.graphics.Matrix;
